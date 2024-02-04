@@ -78,9 +78,22 @@ class UtangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Utang $utang)
+    public function edit($id)
     {
-        //
+        // mengambil data pegawai berdasarkan id yang dipilih
+        $utang = DB::table('utang')->where('id',$id)->get();
+        $utang_jml = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get()->count();
+        $user = auth()->user();
+        $utangs = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get();
+
+        
+        // passing data pegawai yang didapat ke view edit.blade.php
+        return view('utang/edit',[
+            'utang' => $utang,
+            'utangs' => $utangs,
+            'utang_jml' => $utang_jml,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -88,7 +101,15 @@ class UtangController extends Controller
      */
     public function update(UpdateUtangRequest $request, Utang $utang)
     {
-        //
+        DB::table('utang')->where('id',$request->id)->update([
+            'nama_transaksi' => $request->nama_transaksi,
+            'tanggal_transaksi' => date('Y-m-d', strtotime($request->tanggal_transaksi)),
+            'jml_pinjaman' => $request->jml_pinjaman,
+            'status' => $request->status,
+            'jatuh_tempo' => date('Y-m-d', strtotime($request->jatuh_tempo)),
+        ]);
+        // alihkan halaman ke halaman pegawai
+        return redirect('/utang');
     }
 
     /**
