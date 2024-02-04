@@ -30,5 +30,10 @@ Route::middleware('auth')->group(function () {
 
 //home utang
 Route::get('/utang', 'App\Http\Controllers\UtangController@index');
+Route::get('/utang/tambah','App\Http\Controllers\UtangController@create');
+Route::post('/utang/store','App\Http\Controllers\UtangController@store');
+Route::get('/utang/edit/{id}','App\Http\Controllers\UtangController@edit');
+Route::post('/utang/update','App\Http\Controllers\UtangController@update');
+Route::get('/utang/hapus/{id}','App\Http\Controllers\UtangController@destroy');
 
 require __DIR__.'/auth.php';
