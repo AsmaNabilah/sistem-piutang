@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Utang;
 use App\Http\Requests\StoreUtangRequest;
 use App\Http\Requests\UpdateUtangRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class UtangController extends Controller
 {
@@ -13,7 +16,20 @@ class UtangController extends Controller
      */
     public function index()
     {
-        //
+        $utang = Utang::all();
+        $user = auth()->user();
+
+        $utangs = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get();
+        $utang_jml = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get()->count();
+
+        return view('utang/utang',
+            [
+                'utang' => $utang,
+                'utangs' => $utangs,
+                'utang_jml' => $utang_jml,
+                'user' => $user
+            ]
+        );
     }
 
     /**
