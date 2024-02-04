@@ -29,11 +29,11 @@ Route::middleware('auth')->group(function () {
 });
 
 //home utang
-Route::get('/utang', 'App\Http\Controllers\UtangController@index');
-Route::get('/utang/tambah','App\Http\Controllers\UtangController@create');
-Route::post('/utang/store','App\Http\Controllers\UtangController@store');
-Route::get('/utang/edit/{id}','App\Http\Controllers\UtangController@edit');
-Route::post('/utang/update','App\Http\Controllers\UtangController@update');
-Route::get('/utang/hapus/{id}','App\Http\Controllers\UtangController@destroy');
+Route::get('/utang', 'App\Http\Controllers\UtangController@index')->middleware(['auth', 'verified'])->name('home');
+Route::get('/utang/tambah','App\Http\Controllers\UtangController@create')->middleware(['auth', 'verified'])->name('tambah');
+Route::post('/utang/store','App\Http\Controllers\UtangController@store')->middleware(['auth', 'verified'])->name('tambah2');
+Route::get('/utang/edit/{id}','App\Http\Controllers\UtangController@edit')->middleware(['auth', 'verified'])->name('edit');
+Route::post('/utang/update','App\Http\Controllers\UtangController@update')->middleware(['auth', 'verified'])->name('edit2');
+Route::get('/utang/hapus/{id}','App\Http\Controllers\UtangController@destroy')->middleware(['auth', 'verified'])->name('hapus');
 
 require __DIR__.'/auth.php';
