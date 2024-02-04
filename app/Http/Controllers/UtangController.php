@@ -37,7 +37,17 @@ class UtangController extends Controller
      */
     public function create()
     {
-        //
+        $utangs = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get();
+        $utang_jml = Utang::where('jatuh_tempo', '<=', Carbon::now()->addDays(3))->where('status', '=', 'Belum Lunas')->get()->count();
+        $user = auth()->user();
+        
+        return view('utang/tambah',
+            [
+                'utangs' => $utangs,
+                'utang_jml' => $utang_jml,
+                'user' => $user
+            ]
+        );
     }
 
     /**
