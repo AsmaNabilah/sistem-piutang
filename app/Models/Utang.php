@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Utang extends Model
 {
     use HasFactory;
+    protected $table = "utang";
 }
