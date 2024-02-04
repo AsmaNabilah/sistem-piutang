@@ -115,8 +115,12 @@ class UtangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Utang $utang)
+    public function destroy($id)
     {
-        //
+        // menghapus data pegawai berdasarkan id yang dipilih
+        DB::table('utang')->where('id',$id)->delete();
+            
+        // alihkan halaman ke halaman pegawai
+        return redirect('/utang');
     }
 }
