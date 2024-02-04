@@ -55,7 +55,16 @@ class UtangController extends Controller
      */
     public function store(StoreUtangRequest $request)
     {
-        //
+        // insert data ke table pegawai
+        DB::table('utang')->insert([
+            'nama_transaksi' => $request->nama_transaksi,
+            'tanggal_transaksi' => date('Y-m-d', strtotime($request->tanggal_transaksi)),
+            'jml_pinjaman' => $request->jml_pinjaman,
+            'status' => $request->status,
+            'jatuh_tempo' => date('Y-m-d', strtotime($request->jatuh_tempo)),
+        ]);
+        // alihkan halaman ke halaman pegawai
+        return redirect('/utang');
     }
 
     /**
